@@ -1,24 +1,20 @@
-resource "aws_vpc" "production" {
-  cidr_block = "10.0.0.0/16"
+resource "aws_s3_bucket" "east" {
+  for_each = var.buckets_east
+  bucket   = each.value
 
   tags = {
-    Name = "production"
+    Name        = "${each.key}-prod-buckets"
+    Environment = "prod"
   }
 }
 
-resource "aws_vpc" "dev" {
-  cidr_block = "10.1.0.0/16"
+resource "aws_s3_bucket" "west" {
+  provider = aws.west
+  for_each = var.buckets_west
+  bucket   = each.value
 
   tags = {
-    Name = "dev"
-  }
-}
-
-resource "aws_subnet" "workloads" {
-  vpc_id     = aws_vpc.production.id
-  cidr_block = "10.0.1.0/24"
-
-  tags = {
-    Name = "workloads"
+    Name        = "${each.key}-prod-bucket"
+    Environment = "prod"
   }
 }

@@ -1,12 +1,12 @@
 terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 4.0"
-    }
-  }
 }
 
-provider "azurerm" {
-  features {}
+provider "aws" {
+  region = "us-east-1"
 }
+
+provider "aws" {
+  alias  = "west"
+  region = "us-west-2"
+}
+  
